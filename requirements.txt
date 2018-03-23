@@ -1,0 +1,4 @@
+phue
+pytest
+bs4
+-e git://github.com/benknight/hue-python-rgb-converter#egg=rgbxy

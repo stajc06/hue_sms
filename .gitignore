@@ -3,5 +3,6 @@ eggs/
 .eggs/
 *.egg-info/
 *.egg
+.pytest_cache
 
 .env/
