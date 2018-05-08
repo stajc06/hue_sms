@@ -11,14 +11,13 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def __init__():
+    """Creates Flask server for use in communication between Twilio and Philips Hue Light.
+    No methods set up so far for GET request.  Must use POST for now.
+    Takes SMS body as input.  Extracts color name from message, and calls nameConverter.py to check if input is valid"""
     if request.method == 'GET':
         response = MessagingResponse()
         message = Message()
-        # message.body('Congratulations, you used GET')
-        # response.append(message)
-        # response.redirect("http://127.0.0.1:4040/api")
-        #
-        # print(response)
+
 
     if request.method == 'POST':
         body = request.values.get('Body', None)
@@ -27,11 +26,9 @@ def __init__():
         inputValue = body
         inputValue = nameConverter.convert(inputValue)
 
-        # Checking to see if input color is valid
         if(inputValue == "None"):
             sendMessage = "I'm sorry, but I don't recognize the color " + body + "."
 
-        # Alternative if input is valid
         else:
             if not entry.on:
                 entry.on = True
@@ -51,13 +48,6 @@ def __init__():
 
         response = MessagingResponse()
         response.message(sendMessage)
-
-        # message = Message()
-        # message.body('This is a light test')
-        # response.append(message)
-        # response.redirect("http://127.0.0.1:4040/api")
-
-        # print(response)
 
         return str(response)
 
