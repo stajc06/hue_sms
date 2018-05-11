@@ -7,7 +7,6 @@ robins_egg_blue = (0, 204, 204)
 
 
 def test_clean_caps():
-    converter = NameConverter()
     assert 'red' == clean_name('Red')
     assert 'red' == clean_name('RED')
     assert 'red' == clean_name('red')
@@ -15,14 +14,12 @@ def test_clean_caps():
 
 
 def test_clean_punctuation():
-    converter = NameConverter()
     assert 'red' == clean_name('Red.')
     assert 'red' == clean_name('RED!')
     assert 'red' == clean_name('red?')
 
 
 def test_clean_whitespace():
-    converter = NameConverter()
     assert 'red' == clean_name('   Red   ')
     assert 'red' == clean_name('\t\tRed\t\t')
     assert 'red' == clean_name('\n\nRed\n\n')
