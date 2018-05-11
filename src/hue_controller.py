@@ -1,7 +1,8 @@
-from phue import Bridge
+from phue import Bridge, PhueException
 import name_converter
 from rgbxy import Converter
 from name_converter import clean_name
+
 
 class HueController:
 
@@ -11,7 +12,7 @@ class HueController:
         self.name_to_color = name_converter.NameConverter()
 
     def connect(self):
-        if self.bridge is not None:
+        if self.light is not None:
             return
 
         self.bridge = Bridge('10.76.100.161')
@@ -19,7 +20,11 @@ class HueController:
         self.light = self.bridge.lights[1]
 
     def set_color(self, color_name):
-        self.connect()
+        try:
+            self.connect()
+        except PhueException:
+            return "I'm sorry, but I cannot connect to the Hue Light." \
+                   "Please try again later."
 
         rgb_values = self.name_to_color.convert(color_name)
 
@@ -30,6 +35,10 @@ class HueController:
         (r, g, b) = rgb_values
         converter = Converter()
         [x, y] = converter.rgb_to_xy(r, g, b)
-        self.light.xy = (x, y)
-        return "The light was changed to the color {}."\
-            .format(clean_name(color_name))
+        try:
+            self.light.xy = (x, y)
+            return "The light was changed to the color {}."\
+                .format(clean_name(color_name))
+        except PhueException:
+            return "I'm sorry, but I cannot connect to the Hue Light." \
+                   "Please try again later."
