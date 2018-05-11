@@ -4,6 +4,13 @@ value = ""
 
 
 def convert(inputValue):
+    """Function used to check if SMS message's body is valid input
+
+    Parameters:
+    ---------------
+        inputValue: String
+            SMS message's body, checked to see if valid color"""
+
     value = inputValue.lower()
     color_map = make_map('wikipedia_pages/colors.html')
     for entry in color_map:
