@@ -2,6 +2,14 @@ import string
 import os
 
 
+def clean_name(name):
+    name = name.lower()
+    name = name.strip()
+    name = name.replace('\'', '')
+    name = name.replace('-', ' ')
+    return name.translate(str.maketrans("", "", string.punctuation))
+
+
 class NameConverter:
 
     def __init__(self):
@@ -15,16 +23,9 @@ class NameConverter:
                 line = line.strip()
                 (name, r, g, b) = line.split(',')
 
-                name = self.clean_name(name)
+                name = clean_name(name)
                 self.color_map[name] = (int(r), int(g), int(b))
 
-    def clean_name(self, name):
-        name = name.lower()
-        name = name.strip()
-        name = name.replace('\'', '')
-        name = name.replace('-', ' ')
-        return name.translate(str.maketrans("","", string.punctuation))
-
     def convert(self, color):
-        key_name = self.clean_name(color)
+        key_name = clean_name(color)
         return self.color_map.get(key_name, None)
