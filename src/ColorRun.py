@@ -7,13 +7,14 @@ from rgbxy import Converter
 
 
 app = Flask(__name__)
+name_to_color = nameConverter.NameConverter()
 
 
 @app.route('/', methods=['POST'])
 def __init__():
     input_value = request.values.get('Body', None)
 
-    input_value = nameConverter.convert(input_value)
+    input_value = name_to_color.convert(input_value)
 
     if input_value == "None":
         send_message = "I'm sorry, but I don't recognize the color " + \
