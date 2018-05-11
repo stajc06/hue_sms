@@ -7,49 +7,35 @@ from rgbxy import Converter
 
 
 app = Flask(__name__)
+name_to_color = nameConverter.NameConverter()
 
 
-@app.route('/', methods=['GET', 'POST'])
-def __init__():
-    """Creates Flask server for use in communication between Twilio and Philips Hue Light.
-    No methods set up so far for GET request.  Must use POST for now.
-    Takes SMS body as input.  Extracts color name from message, and calls nameConverter.py to check if input is valid"""
-    if request.method == 'GET':
-        response = MessagingResponse()
-        message = Message()
+@app.route('/', methods=['POST'])
+def set_color():
+    color_name = request.values.get('Body', None)
 
+    if color_name == "Black":
+        msg = MessagingResponse()
+        msg.message("Haha... Next time, please send "
+                    "a color that uses light.")
+        return str(msg)
 
-    if request.method == 'POST':
-        body = request.values.get('Body', None)
+    rgb_values = name_to_color.convert(color_name)
 
-        print(body)
-        inputValue = body
-        inputValue = nameConverter.convert(inputValue)
+    if rgb_values is None:
+        msg = MessagingResponse()
+        msg.message("I'm sorry, but I don't recognize "
+                    "the color {}".format(color_name))
+        return str(msg)
 
-        if(inputValue == "None"):
-            sendMessage = "I'm sorry, but I don't recognize the color " + body + "."
-
-        else:
-            if not entry.on:
-                entry.on = True
-            if inputValue == "Black":
-                sendMessage = "Haha... Next time, please send a color which uses light."
-            else:
-                rgb_color = color_map[inputValue]
-                print(rgb_color)
-                r = rgb_color['r']
-                g = rgb_color['g']
-                b = rgb_color['b']
-                converter = Converter()
-                [x, y] = converter.rgb_to_xy(r, g, b)
-                print(x, y)
-                entry.xy = (x, y)
-                sendMessage = "The light was changed to the color " + body + "."
-
-        response = MessagingResponse()
-        response.message(sendMessage)
-
-        return str(response)
+    (r, g, b) = rgb_values
+    converter = Converter()
+    [x, y] = converter.rgb_to_xy(r, g, b)
+    entry.xy = (x, y)
+    msg = MessagingResponse()
+    msg.message("The light was changed to the "
+                "color {}.".format(color_name))
+    return str(msg)
 
 
 if __name__ == '__main__':
