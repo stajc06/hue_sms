@@ -1,6 +1,5 @@
 
-from nameConverter import NameConverter
-import pytest
+from name_converter import NameConverter
 
 red = (237, 10, 63)
 red_orange = (255,104,31)

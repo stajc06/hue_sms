@@ -1,22 +1,22 @@
 from phue import Bridge
-import nameConverter
+import name_converter
 from rgbxy import Converter
 
 
 class HueController:
 
     def __init__(self):
-        self.b = None
-        self.entry = None
-        self.name_to_color = nameConverter.NameConverter()
+        self.bridge = None
+        self.light = None
+        self.name_to_color = name_converter.NameConverter()
 
     def connect(self):
-        if self.b is not None:
+        if self.bridge is not None:
             return
 
-        self.b = Bridge('10.76.100.161')
-        self.b.connect()
-        self.entry = self.b.lights[1]
+        self.bridge = Bridge('10.76.100.161')
+        self.bridge.connect()
+        self.light = self.bridge.lights[1]
 
     def set_color(self, color_name):
         self.connect()
@@ -30,6 +30,5 @@ class HueController:
         (r, g, b) = rgb_values
         converter = Converter()
         [x, y] = converter.rgb_to_xy(r, g, b)
-        self.entry.xy = (x, y)
+        self.light.xy = (x, y)
         return "The light was changed to the color {}.".format(color_name)
-        return str(msg)
