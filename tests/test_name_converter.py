@@ -1,5 +1,5 @@
 
-from name_converter import NameConverter
+from name_converter import NameConverter, clean_name
 
 red = (237, 10, 63)
 red_orange = (255,104,31)
@@ -8,24 +8,24 @@ robins_egg_blue = (0, 204, 204)
 
 def test_clean_caps():
     converter = NameConverter()
-    assert 'red' == converter.clean_name('Red')
-    assert 'red' == converter.clean_name('RED')
-    assert 'red' == converter.clean_name('red')
-    assert 'red' == converter.clean_name('ReD')
+    assert 'red' == clean_name('Red')
+    assert 'red' == clean_name('RED')
+    assert 'red' == clean_name('red')
+    assert 'red' == clean_name('ReD')
 
 
 def test_clean_punctuation():
     converter = NameConverter()
-    assert 'red' == converter.clean_name('Red.')
-    assert 'red' == converter.clean_name('RED!')
-    assert 'red' == converter.clean_name('red?')
+    assert 'red' == clean_name('Red.')
+    assert 'red' == clean_name('RED!')
+    assert 'red' == clean_name('red?')
 
 
 def test_clean_whitespace():
     converter = NameConverter()
-    assert 'red' == converter.clean_name('   Red   ')
-    assert 'red' == converter.clean_name('\t\tRed\t\t')
-    assert 'red' == converter.clean_name('\n\nRed\n\n')
+    assert 'red' == clean_name('   Red   ')
+    assert 'red' == clean_name('\t\tRed\t\t')
+    assert 'red' == clean_name('\n\nRed\n\n')
 
 
 def test_exact_spelling():

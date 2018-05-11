@@ -1,7 +1,7 @@
 from phue import Bridge
 import name_converter
 from rgbxy import Converter
-
+from name_converter import clean_name
 
 class HueController:
 
@@ -31,4 +31,5 @@ class HueController:
         converter = Converter()
         [x, y] = converter.rgb_to_xy(r, g, b)
         self.light.xy = (x, y)
-        return "The light was changed to the color {}.".format(color_name)
+        return "The light was changed to the color {}."\
+            .format(clean_name(color_name))
