@@ -1,39 +1,24 @@
-from scrape_colors import make_map
+import string
 
 
 class NameConverter:
 
     def __init__(self):
-        self.color_map = make_map('wikipedia_pages/colors.html')
+        self.color_map = {}
 
+        with open('colors.csv') as colors:
+            for line in colors:
+                line = line.strip()
+                (name, r, g, b) = line.split(',')
 
-    def convert(self, input_value):
-        """Function used to check if SMS message's body is valid input
+                name = self.clean_name(name)
+                self.color_map[name] = (int(r), int(g), int(b))
 
-        Parameters:
-        ---------------
-            inputValue: String
-                SMS message's body, checked to see if valid color"""
+    def clean_name(self, name):
+        name = name.strip()
+        name = name.replace('\'', '')
+        name = name.replace('-', ' ')
+        return name.translate(string.punctuation)
 
-        value = input_value.lower()
-
-        for entry in self.color_map:
-            if value == entry.lower():
-                return entry
-        if value == "Blue".lower():
-            return "Blue (I)"
-        elif value == "Violet".lower():
-            return "Violet (I)"
-        elif value == "Lavender".lower():
-            return "Lavender (I)"
-        elif value == "Gold".lower():
-            return "Gold (I)"
-        elif value == "Pink".lower():
-            return "Pink Flamingo"
-        elif value == "Violet".lower():
-            return "Violet (I)"
-        elif value == "Purple".lower():
-            return "Violet (II)"
-
-        else:
-            return "None"
+    def convert(self, color):
+        return self.color_map.get(color, None)

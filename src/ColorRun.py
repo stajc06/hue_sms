@@ -11,34 +11,31 @@ name_to_color = nameConverter.NameConverter()
 
 
 @app.route('/', methods=['POST'])
-def __init__():
-    input_value = request.values.get('Body', None)
+def set_color():
+    color_name = request.values.get('Body', None)
 
-    input_value = name_to_color.convert(input_value)
+    if color_name == "Black":
+        msg = MessagingResponse()
+        msg.message("Haha... Next time, please send "
+                    "a color that uses light.")
+        return str(msg)
 
-    if input_value == "None":
-        send_message = "I'm sorry, but I don't recognize the color " + \
-                      input_value + "."
+    rgb_values = name_to_color.convert(color_name)
 
-    else:
-        if not entry.on:
-            entry.on = True
-        if input_value == "Black":
-            send_message = "Haha... Next time, please send a color that uses light."
-        else:
-            rgb_color = color_map[input_value]
-            r = rgb_color['r']
-            g = rgb_color['g']
-            b = rgb_color['b']
-            converter = Converter()
-            [x, y] = converter.rgb_to_xy(r, g, b)
-            entry.xy = (x, y)
-            send_message = "The light was changed to the color " + input_value + "."
+    if rgb_values is None:
+        msg = MessagingResponse()
+        msg.message("I'm sorry, but I don't recognize "
+                    "the color {}".format(color_name))
+        return str(msg)
 
-    response = MessagingResponse()
-    response.message(send_message)
-
-    return str(response)
+    (r, g, b) = rgb_values
+    converter = Converter()
+    [x, y] = converter.rgb_to_xy(r, g, b)
+    entry.xy = (x, y)
+    msg = MessagingResponse()
+    msg.message("The light was changed to the "
+                "color {}.".format(color_name))
+    return str(msg)
 
 
 if __name__ == '__main__':
