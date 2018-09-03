@@ -7,25 +7,7 @@ import nameConverter
 def go():
     color_map = make_map('wikipedia_pages/colors.html')
 
-    # for entry in color_map:
-    #     print(entry)
-
-    # rgb_color = color_map['Beaver']
-    # print(rgb_color)
-    #
-    # b = Bridge('10.76.100.161')
-    #
-    # b.connect()
-    #
-    # entry = b.lights[1]
-    # r = rgb_color['r']
-    # g = rgb_color['g']
-    # b = rgb_color['b']
-    # converter = Converter()
-    # [x, y] = converter.rgb_to_xy(r, g, b)
-    # print(x, y)
-    # entry.xy = (x, y)
-    #
+    #Test Comment in demo2 file
     test = "."
 
     b = Bridge('10.76.100.161')
