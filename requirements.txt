@@ -1,4 +1,6 @@
 phue
 pytest
 bs4
+flask
+twilio
 -e git://github.com/benknight/hue-python-rgb-converter#egg=rgbxy
