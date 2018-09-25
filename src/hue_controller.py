@@ -4,6 +4,8 @@ from rgbxy import Converter
 from name_converter import clean_name
 
 
+saturation_val = 0
+
 class HueController:
 
     def __init__(self):
@@ -34,9 +36,21 @@ class HueController:
 
         (r, g, b) = rgb_values
         converter = Converter()
-        [x, y] = converter.rgb_to_xy(r, g, b)
+        print(r, " ", g, " ", b)
+        if r == 255 and b == 255 and g == 255:
+            saturation_val = 0
+            [x, y] = converter.rgb_to_xy(r, g, b)
+        else:
+            saturation_val = 255
+            correction_value = 1.3
+            r = ((r / 255) ** (1 / correction_value))
+            g = ((g / 255) ** (1 / correction_value))
+            b = ((b / 255) ** (1 / correction_value))
+            [x, y] = converter.rgb_to_xy(r, g, b)
+
         try:
             self.light.xy = (x, y)
+            self.light.saturation = saturation_val
             return "The light was changed to the color {}."\
                 .format(clean_name(color_name))
         except PhueException:
