@@ -5,7 +5,7 @@ from name_converter import clean_name
 
 
 saturation_val = 0
-
+branch_value = 0
 class HueController:
 
     def __init__(self):
