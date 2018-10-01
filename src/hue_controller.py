@@ -2,10 +2,11 @@ from phue import Bridge, PhueException
 import name_converter
 from rgbxy import Converter
 from name_converter import clean_name
-
+import logging
 
 saturation_val = 0
-branch_value = 0
+logging.basicConfig(level=logging.INFO,filename="hue_log.log",
+                    format="%(asctime)s:%(levelname)s:%(message)s"	)
 class HueController:
 
     def __init__(self):
@@ -19,18 +20,22 @@ class HueController:
 
         self.bridge = Bridge('10.76.100.161')
         self.bridge.connect()
+        logging.info("Server has connected to the bridge")
+
         self.light = self.bridge.lights[1]
 
     def set_color(self, color_name):
         try:
             self.connect()
         except PhueException:
+            logging.info("Server was unable to connect to Hue Light")
             return "I'm sorry, but I cannot connect to the Hue Light." \
                    "Please try again later."
 
         rgb_values = self.name_to_color.convert(color_name)
 
         if rgb_values is None:
+            logging.info("Color " + color_name + " was not recognized.")
             return "I'm sorry, but I don't recognize " \
                    "the color {}".format(color_name)
 
@@ -51,8 +56,11 @@ class HueController:
         try:
             self.light.xy = (x, y)
             self.light.saturation = saturation_val
+            logging.info("The light was changed to the color {}."\
+                .format(clean_name(color_name)))
             return "The light was changed to the color {}."\
                 .format(clean_name(color_name))
         except PhueException:
+            logging.info("Server was unable to connect to Hue Light.")
             return "I'm sorry, but I cannot connect to the Hue Light." \
                    "Please try again later."
