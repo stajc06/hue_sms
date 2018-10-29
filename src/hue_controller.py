@@ -3,6 +3,7 @@ import name_converter
 from rgbxy import Converter
 from name_converter import clean_name
 import logging
+from getRedisColor import getColor
 
 logging.basicConfig(level=logging.INFO,filename="hue_log.log",
                     format="%(asctime)s:%(levelname)s:%(message)s"	)
@@ -33,14 +34,18 @@ class HueController:
             return "I'm sorry, but I cannot connect to the Hue Light." \
                    "Please try again later."
 
-        rgb_values = self.name_to_color.convert(color_name)
+        rgb_values = getColor(color_name)
 
         if rgb_values is None:
             logging.info("Color " + color_name + " was not recognized")
             return "I'm sorry, but I don't recognize " \
                    "the color {}".format(color_name)
 
-        (r, g, b) = rgb_values
+        (r, g, b) = rgb_values.decode("utf-8").split(',')
+        r = int(r)
+        g = int(g)
+        b = int(b)
+
         converter = Converter()
         print(r, " ", g, " ", b)
         if r == 255 and b == 255 and g == 255:
@@ -53,7 +58,6 @@ class HueController:
             g = ((g / 255) ** (1 / correction_value))
             b = ((b / 255) ** (1 / correction_value))
             [x, y] = converter.rgb_to_xy(r, g, b)
-
         try:
             self.light.xy = (x, y)
             self.light.saturation = saturation_val
