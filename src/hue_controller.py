@@ -39,7 +39,7 @@ class HueController:
         if rgb_values is None:
             logging.info("Color " + color_name + " was not recognized")
             return "I'm sorry, but I don't recognize " \
-                   "the color {}".format(color_name)
+                   "the color \"{}\".".format(color_name)
 
         (r, g, b) = rgb_values.decode("utf-8").split(',')
         r = int(r)
@@ -62,7 +62,7 @@ class HueController:
             self.light.xy = (x, y)
             self.light.saturation = saturation_val
             logging.info("The light was changed to the color " + color_name)
-            return "The light was changed to the color {}."\
+            return "The light was changed to the color \"{}\"."\
                 .format(clean_name(color_name))
         except PhueException:
             logging.info("Server unable to connect to the Hue Light")
