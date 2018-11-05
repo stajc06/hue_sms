@@ -18,8 +18,8 @@ def go():
 
             name = clean_name(name)
             inputVal = str(red + "," + green + "," + blue)
-            print("name: ", name, "inputVal: ", inputVal)
-            r.set(str(name), str(inputVal))
+
+            r.hset("colors", name, inputVal)
 
 
 if __name__ == '__main__':

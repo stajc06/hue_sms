@@ -5,5 +5,5 @@ def getColor(colorName):
     r = redis.Redis(
         host='localhost', port=6379, db=0)
 
-    value = r.get(clean_name(str(colorName)))
-    return(value)
+    value = r.hget("colors", clean_name(str(colorName)))
+    return value
