@@ -3,4 +3,6 @@ pytest
 bs4
 flask
 twilio
+redis
+fakeredis
 -e git://github.com/benknight/hue-python-rgb-converter#egg=rgbxy
