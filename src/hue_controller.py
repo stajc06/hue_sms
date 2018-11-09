@@ -10,6 +10,9 @@ logging.basicConfig(level=logging.INFO,filename="hue_log.log",
 
 saturation_val = 0
 branch_value = 0
+IP_address = '10.76.100.161'
+
+
 class HueController:
 
     def __init__(self):
@@ -21,7 +24,7 @@ class HueController:
         if self.light is not None:
             return
 
-        self.bridge = Bridge('10.76.100.161')
+        self.bridge = Bridge(IP_address)
         self.bridge.connect()
         logging.info("Server was successfully able to connect to the bridge")
         self.light = self.bridge.lights[1]
