@@ -31,10 +31,11 @@ def numOfEachColor(file):
             data_reader = csv.reader(data)
             for row in data_reader:
                 key = row[2]
-                if key in colorsDict:
-                    colorsDict[key] += 1
-                else:
-                    colorsDict[key] = 1
+                if getColor(key) is not None:
+                    if key in colorsDict:
+                        colorsDict[key] += 1
+                    else:
+                        colorsDict[key] = 1
         return colorsDict
     except FileNotFoundError:
         return colorsDict
@@ -55,6 +56,8 @@ def colorPercent(file,color):
     try:
         colors = numOfEachColor(file)
         totalCalls = sum(colors.values())
+        if totalCalls == 0:
+            totalCalls = 1;
         if(colors.get(color) != None):
             percent = colors.get(color) / totalCalls * 100
         else:
@@ -68,6 +71,7 @@ def firstEntryDate(file):
             data_reader = csv.reader(data)
             rowOne = next(data_reader)
             firstDate = rowOne[0]
-            return firstDate[0:10]
+            return str(firstDate[0:10])
     except FileNotFoundError:
         return ""
+
